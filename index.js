@@ -1,6 +1,6 @@
 // 'https://fakestoreapi.com/products
 let buttonsDOM = []
-let cart = [2,5]
+let cart = []
 class Product {
   async getProduct() {
     try{
@@ -57,7 +57,9 @@ class UI {
         //get product from local storage products
         const cartItem = {...Storage.getProduct(id), amount:1}
         // add product to the cart
+        cart = [...cart, cartItem]
         // save cart in local storage
+        Storage.saveCart(cart)
         // set cart values
         // add cart item to display in cartDOM
         // show cart has been added with notification or overal
@@ -74,6 +76,9 @@ class Storage {
   static getProduct(id) {
     let products = JSON.parse(localStorage.getItem('products'))
     return products.find(item => item['id'] == id)
+  }
+  static saveCart(cartItemList) {
+    localStorage.setItem('cart', JSON.stringify(cartItemList))
   }
 }
 
