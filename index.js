@@ -1,6 +1,6 @@
 // 'https://fakestoreapi.com/products
-
-
+let buttonsDOM = []
+let cart = [2,5]
 class Product {
   async getProduct() {
     try{
@@ -42,20 +42,27 @@ class UI {
   // adds event to the buttons to add to cart
   getBagButton() {
     const buttons = [...document.querySelectorAll('.add-to-cart-btn')]
-    let cart = [3,4]
+    buttonsDOM = buttons
+    // temporary cart storage
     buttons.forEach(button => {
       let id = button.dataset.id
       let inCart = cart.find(item => item == id);
       if (inCart) {
         button.innerHTML = 'In cart'
         button.disabled = true
-      } else {
-        button.addEventListener('click', (e) => {
-          console.log(e.target.dataset.id)
-          button.innerHTML = 'In cart'
-          button.disabled = true
-        })
-      }
+      } 
+      button.addEventListener('click', (e) => {
+        e.target.innerHTML = 'In cart'
+        e.target.disabled = true
+        //get product from local storage products
+        const cartItem = {...Storage.getProduct(id), amount:1}
+        // add product to the cart
+        // save cart in local storage
+        // set cart values
+        // add cart item to display in cartDOM
+        // show cart has been added with notification or overal
+      })
+      
     })
   }
 }
@@ -63,6 +70,10 @@ class UI {
 class Storage {
   static saveLocally(items) {
     localStorage.setItem('products', JSON.stringify(items))
+  }
+  static getProduct(id) {
+    let products = JSON.parse(localStorage.getItem('products'))
+    return products.find(item => item['id'] == id)
   }
 }
 
@@ -74,8 +85,6 @@ async function main(){
       Storage.saveLocally(item)
   })
   .then(() => {
-      // const a = [...document.querySelectorAll('img.product-image')]
-      // console.log(a)
       ui.getBagButton()
   })
 }
