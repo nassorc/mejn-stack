@@ -23,13 +23,14 @@ class UI {
     let productsDOM = document.querySelector('ul.items')
     products.forEach(item => {
       result += `
-      <li class="item">
+      <li class="item" data-id=${item['id']}>
         <img src="${item['image']}" alt="none" class="product-image">
         <div class="item-details">
           <p class="product-title">${item['title']}</p>
           <p class="product-desc">${item['description']}</p>
           <p class="product-price">$${item['price']}</p>
         </div>
+        <button class="add-to-cart-btn" data-id=${item['id']}>Add to cart</button>
       </li>
       `
     })
@@ -37,6 +38,25 @@ class UI {
   }
   displaySomething() {
     console.log('something')
+  }
+  // adds event to the buttons to add to cart
+  getBagButton() {
+    const buttons = [...document.querySelectorAll('.add-to-cart-btn')]
+    let cart = [3,4]
+    buttons.forEach(button => {
+      let id = button.dataset.id
+      let inCart = cart.find(item => item == id);
+      if (inCart) {
+        button.innerHTML = 'In cart'
+        button.disabled = true
+      } else {
+        button.addEventListener('click', (e) => {
+          console.log(e.target.dataset.id)
+          button.innerHTML = 'In cart'
+          button.disabled = true
+        })
+      }
+    })
   }
 }
 
@@ -54,8 +74,9 @@ async function main(){
       Storage.saveLocally(item)
   })
   .then(() => {
-      const a = [...document.querySelectorAll('img.product-image')]
-      console.log(a)
+      // const a = [...document.querySelectorAll('img.product-image')]
+      // console.log(a)
+      ui.getBagButton()
   })
 }
 document.addEventListener("DOMContentLoaded", ()=> {main()})
