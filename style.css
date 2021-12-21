@@ -1,0 +1,24 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #a9d6b5;
+}
+ul {
+  margin: 0;
+  padding: 0;
+}
+li {
+  list-style: none;
+}
+.product-image {
+  width: auto;
+  height: auto;
+  max-width: 210px;
+  max-height: 210px;
+}
+li.item {
+  display: flex;
+}
