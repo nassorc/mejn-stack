@@ -4,6 +4,8 @@ const mongoose = require('mongoose')
 const app = express()
 // Import routes
 const authRoute = require('./routes/auth')
+const postRoute = require('./routes/post')
+
 dotenv.config()
 
 const PORT = process.env.PORT || 8080 
@@ -20,6 +22,7 @@ app.use(express.json())
 
 // Route middleware
 app.use('/api/user', authRoute)
+app.use('/api/posts', postRoute)
 
 app.listen(PORT, () => {
     console.log('authenticaion server is listening on port 8080')
