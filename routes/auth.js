@@ -27,12 +27,26 @@ router.post('/register', async (req,res) => {
 
     try{
         const dbRes = await User.create(user)
-        res.json({status: 'ok', user: user})
+        res.json({status: 'ok', id: user.id})
 
     } catch(err) {
         res.status(400).send(err)
     }
 
+})
+
+router.post('/login', async (req, res) => {
+    const {error} = loginValidation(req.body)
+    if(error) return res.status(400).send(error.details[0].message)
+
+    const user = await User.findOne({email:req.body.email})
+    if (!user) return res.status(400).send('Email or password is invalid')
+
+    const validPass = await bcrypt.compare(req.body.password, user.password)
+
+    if(!validPass) return res.status(400).send('Invalid password')
+
+    res.json({status: 'ok'})
 })
 
 
