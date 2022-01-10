@@ -23,6 +23,14 @@ const loginValidation = (data) => {
     return schema.validate(data)
 }
 
+const joinGroupValidation = (data) => {
+    const schema = Joi.object({
+        groupname: Joi.string().required(),
+        password: Joi.string().required()
+    })
 
-module.exports = {registerValidation, loginValidation}
+    return schema.validate(data)
+}
+
+module.exports = {registerValidation, loginValidation, joinGroupValidation}
 

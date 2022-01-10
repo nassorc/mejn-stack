@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const Group = require('../models/group.model')
+const {joinGroupValidation} = require('../validation')
 
 router.post('/create', async (req, res) => {
     const group = new Group({
@@ -17,8 +18,12 @@ router.post('/create', async (req, res) => {
 })
 
 router.post('/join', async (req, res) => {
+    const {error} = joinGroupValidation(req.body)
+    if(error) return res.status(400).send({message: error.details[0].message})
     const groups = await Group.find({groupname:req.body.groupname})
     res.json({status: 'ok', groups: groups})
 })
+// ?groupname=apple&sor=newest
+// :id => home/1234
 
 module.exports = router
