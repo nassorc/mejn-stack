@@ -12,9 +12,9 @@ const UserSchema = new mongoose.Schema({
         lowercase: true,
         unique: true,
         required: 'Email Address is required',
-        validate: [validateEmail, 'Please fill a valid email address'],
-
+        validate: [validateEmail, 'Please fill a valid email address']
     },
+    groups: [{type: mongoose.Schema.Types.ObjectId, ref: 'GroupModel'}],
     password: {type: String, required: true},
     userCreatedOn: {type: Number, required: true, default: Date.now()},
     username: {type: String, unique: true, required: true},

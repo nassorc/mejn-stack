@@ -2,9 +2,11 @@ const express = require('express')
 const dotenv = require('dotenv')
 const mongoose = require('mongoose')
 const app = express()
+
 // Import routes
 const authRoute = require('./routes/auth')
 const postRoute = require('./routes/post')
+const groupRoute = require('./routes/group')
 
 dotenv.config()
 
@@ -23,6 +25,7 @@ app.use(express.json())
 // Route middleware
 app.use('/api/user', authRoute)
 app.use('/api/posts', postRoute)
+app.use('/api/group', groupRoute)
 
 app.listen(PORT, () => {
     console.log('authenticaion server is listening on port 8080')
