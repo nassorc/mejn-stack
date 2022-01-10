@@ -17,10 +17,11 @@ router.post('/create', async (req, res) => {
     }
 })
 
-router.post('/join', async (req, res) => {
-    const {error} = joinGroupValidation(req.body)
-    if(error) return res.status(400).send({message: error.details[0].message})
-    const groups = await Group.find({groupname:req.body.groupname})
+router.get('/', async (req, res) => {
+    // res.send(req.query)
+    // const {error} = joinGroupValidation(req.body)
+    // if(error) return res.status(400).send({message: error.details[0].message})
+    const groups = await Group.find({groupname:req.query.groupname})
     res.json({status: 'ok', groups: groups})
 })
 // ?groupname=apple&sor=newest
