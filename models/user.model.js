@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const todo = require('./todo.model').schema
 
 
 const validateEmail = (email) => {
@@ -18,6 +19,7 @@ const UserSchema = new mongoose.Schema({
     password: {type: String, required: true},
     userCreatedOn: {type: Number, required: true, default: Date.now()},
     username: {type: String, unique: true, required: true},
+    userTodoList: [{todo}]
 })
 
 const model = mongoose.model('UserModel', UserSchema)

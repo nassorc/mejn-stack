@@ -1,13 +1,22 @@
 const router = require('express').Router()
 const Group = require('../models/group.model')
 const {joinGroupValidation} = require('../validation')
+const bcrypt = require('bcryptjs')
 
 router.post('/create', async (req, res) => {
+    const {groupname, secret} = req.body
+    if(!groupname) return res.status(400).json({message: "Must have groupname"})
+    if(!secret) return res.status(400).json({message: "Must have password"})
+
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(secret, salt)
+
     const group = new Group({
         groupname: req.body.groupname,
         groupCreatorName: req.body.creator,
-        groupSecretKey: req.body.secret
+        groupSecretKey: hashedPassword
     })
+    
 
     try{
         const dbRes = await Group.create(group)
