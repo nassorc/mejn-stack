@@ -3,6 +3,8 @@ const User = require('../models/user.model')
 const {registerValidation, loginValidation} = require('../validation')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const path = require('path')
+const fs = require('fs')
 
 router.post('/register', async (req,res) => {
     // validate data before creating user
@@ -50,7 +52,15 @@ router.post('/login', async (req, res) => {
     const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET, {expiresIn: '1h'})
     let t = new Object(jwt.decode(token))
     console.log(Date(t['exp']))
-    res.header('auth-token', token).send(token)
+
+    const testUser = {email: 'mat@gmail.com', password: 'test123'}
+
+    // fs.readFile(path.join(__dirname, '..', 'assets/user.ejs'), 'utf-8', (err, html) => {
+    //     console.log(html)
+    //     res.header('auth-token', token).render(ejs.render(html, {objj}))
+    // })  
+    // res.header('auth-token', token).send(ejs.render(path.join(__dirname, '..', 'assets/user.html'), JSON.stringify(req.body)))
+    res.render('user', testUser)
 
 })
 

@@ -1,7 +1,11 @@
 const express = require('express')
 const dotenv = require('dotenv')
 const mongoose = require('mongoose')
+const path = require('path')
 const app = express()
+
+app.set('views', path.join(__dirname, 'assets'))
+app.set('view engine', 'ejs')
 
 // Import routes
 const authRoute = require('./routes/auth')
