@@ -4,6 +4,8 @@ const mongoose = require('mongoose')
 const path = require('path')
 const app = express()
 
+app.use(express.static(path.resolve(__dirname, 'assets')))
+
 app.set('views', path.join(__dirname, 'assets'))
 app.set('view engine', 'ejs')
 
@@ -27,7 +29,15 @@ app.use(express.json())
 
 
 // Route middleware
-app.use('/api/user', authRoute)
+app.use('/api/user', authRoute, (req, res) => {
+    
+    res.set('Content-Type', 'text/html')
+    res.sendFile(path.join(__dirname, '/assets/landingPage.ejs'))
+})
+app.use('/api/userboard', (req, res) => {
+    res.set('Content-Type', 'text/html')
+    res.sendFile(path.join(__dirname, '/assets/user.ejs'))
+})
 app.use('/api/posts', postRoute)
 app.use('/api/group', groupRoute)
 

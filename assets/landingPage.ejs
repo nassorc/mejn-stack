@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="" class="login-form">
+        <input type="email" placeholder="email" name="email" class="email">
+        <input type="password" placeholder="password" name="password" class="password">
+        <button id="btn-login">Login</button>
+    </form>
+    <!-- <form action="" class="register-form">
+        <input type="password" placeholder="password" name="password">
+        <button id="btn-register">register</button>
+    </form> -->
+
+    <script>
+        const login = document.getElementById('btn-login')
+        login.addEventListener('click', async (e) => {
+            e.preventDefault()
+            const email = document.querySelector('.email').value
+            const password = document.querySelector('.password').value
+            const userData = {email: email, password: password}
+            console.log(userData)
+            console.log(email)
+            
+            await fetch('http://localhost:8080/api/user/login', {
+                method: 'POST',
+                redirect: 'follow',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userData
+                })
+            })
+            .then(res => {
+                if(res.redirected) {
+                    window.location.href = res.url
+                }
+            })
+            // const res = await fetch('http://localhost:8080/api/user/login', {
+            //     method: 'POST',
+            //     redirect: 'follow',
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify({
+            //         userData
+            //     })
+            // })
+            
+            // console.log(data)
+            
+        })
+    </script>
+    <!-- <script src="landingPage.js"></script> -->
+</body>
+
+</html>
