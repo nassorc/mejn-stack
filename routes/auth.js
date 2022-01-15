@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken')
 const path = require('path')
 const fs = require('fs')
 
+
 router.post('/register', async (req,res) => {
     // validate data before creating user
     const {error} = registerValidation(req.body)
@@ -65,6 +66,8 @@ router.post('/login', async (req, res) => {
     
     // res.render('user')
     // res.send({status: 'ok', message: 'user has been founded', user: user})
+    res.cookie('id', token, {sameSite: true})
+    res.cookie('userId', user.id, {sameSite: true})
     res.redirect(301, '/api/userboard')
 })
 

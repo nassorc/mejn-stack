@@ -8,15 +8,39 @@
 </head>
 <body>
     <h1>USER PAGE</h1>
+    <a href="http://localhost:8080/api/userboard/about">about</a>
     <form>
-        <!-- <input type="text" class="todo">
-        <button class="add">add</button> -->
+        <input type="text" class="todo">
+        <button class="add">add</button>
     </form>
-    <!-- <script type="text/javascript">
+    <script type="text/javascript">
        const button = document.querySelector('.add')
-       button.addEventListener('click', ()=>{
-           console.log('click')
+       button.addEventListener('click', async (e)=>{
+           e.preventDefault()
+           const inputValue = {todo: document.querySelector('.todo').value}
+          
+           await fetch('http://localhost:8080/api/posts/user', {
+               method: 'POST',
+               headers: {
+                   'Content-Type': 'application/json'
+               },
+               body: JSON.stringify({
+                    inputValue
+               })
+           })
+           .then(res => {console.log(res)})
        })
-    </script> -->
+
+    //    const loadData = async () => {
+    //        await fetch('http://localhost:8080/api/posts/user', {
+    //            method: 'GET'
+    //        })
+    //        .then(res => {console.log(res)})
+    //    }
+
+    //    document.addEventListener('DOMContentLoaded', ()=> {
+    //     //    loadData()
+    //    })
+    </script>
 </body>
 </html>
