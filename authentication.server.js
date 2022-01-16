@@ -8,8 +8,12 @@ const app = express()
 
 const verifyToken = require('./routes/verifyToken')
 
+// app.use(express.static(path.resolve(__dirname, 'assets')))
+app.use(express.static('assets'))
+app.use('/css', express.static(__dirname + 'assets/css'))
+console.log(__dirname)
+
 app.use(cookieParser())
-app.use(express.static(path.resolve(__dirname, 'assets')))
 app.set('views', path.join(__dirname, 'assets'))
 app.set('view engine', 'ejs')
 
@@ -47,6 +51,11 @@ app.use('/api/userboard/about', verifyToken, (req, res) => {
 })
 app.use('/api/posts', postRoute)
 app.use('/api/group', groupRoute)
+
+app.use('/api/data/get', (req, res) => {
+    console.log('data get invoked')
+    res.send({mesg: 'hello user'})
+})
 
 app.listen(PORT, () => {
     console.log('authenticaion server is listening on port 8080')
