@@ -11,6 +11,7 @@ const verifyToken = require('./routes/verifyToken')
 // app.use(express.static(path.resolve(__dirname, 'assets')))
 app.use(express.static('assets'))
 app.use('/css', express.static(__dirname + 'assets/css'))
+app.use('/src', express.static(__dirname + 'assets/src'))
 console.log(__dirname)
 
 app.use(cookieParser())

@@ -7,25 +7,53 @@
     <title>Document</title>
 </head>
 <body>
+    <!-- <% if (user) { %>
+        <h2><%= user.name %></h2>
+      <% } %> -->
     <form action="" class="login-form">
-        <input type="email" placeholder="email" name="email" class="email">
-        <input type="password" placeholder="password" name="password" class="password">
+        <h2>Login</h2><hr>
+        <input type="email" placeholder="email" name="email" class="email-login">
+        <input type="password" placeholder="password" name="password" class="password-login">
         <button id="btn-login">Login</button>
     </form>
-    <!-- <form action="" class="register-form">
-        <input type="password" placeholder="password" name="password">
+
+    <form action="" class="register-form">
+        <h2>Register</h2><hr>
+        
+        <input type="text" placeholder="username" name="username" class="username-register">
+        <input type="email" placeholder="email" name="email" class="email-register">
+        <input type="password" placeholder="password" name="password" class="password-register">
         <button id="btn-register">register</button>
-    </form> -->
+    </form>
 
     <script>
+        const register = document.getElementById('btn-register')
         const login = document.getElementById('btn-login')
+        const message = register.addEventListener('click', async (e) => {
+            e.preventDefault()
+            const email = document.querySelector('.email-register').value
+            const password = document.querySelector('.password-register').value
+            const username = document.querySelector('.username-register').value
+            const userData = {username, email, password}
+
+            await fetch('http://localhost:8080/api/user/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userData
+                })
+            })
+            .then(res => res.json())
+            .then(data => {return data})
+        })        
+        console.log(message)
         login.addEventListener('click', async (e) => {
             e.preventDefault()
-            const email = document.querySelector('.email').value
-            const password = document.querySelector('.password').value
+            const email = document.querySelector('.email-login').value
+            const password = document.querySelector('.password-login').value
             const userData = {email: email, password: password}
-            console.log(userData)
-            console.log(email)
             
             await fetch('http://localhost:8080/api/user/login', {
                 method: 'POST',
@@ -42,18 +70,7 @@
                     window.location.href = res.url
                 }
             })
-            // const res = await fetch('http://localhost:8080/api/user/login', {
-            //     method: 'POST',
-            //     redirect: 'follow',
-            //     headers: {
-            //         'Content-Type': 'application/json'
-            //     },
-            //     body: JSON.stringify({
-            //         userData
-            //     })
-            // })
-            
-            // console.log(data)
+           
             
         })
     </script>
