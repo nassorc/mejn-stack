@@ -15,7 +15,7 @@ app.use('/src', express.static(__dirname + 'assets/src'))
 console.log(__dirname)
 
 app.use(cookieParser())
-app.set('views', path.join(__dirname, 'assets'))
+app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 
 // Import routes
@@ -39,12 +39,13 @@ app.use(express.json())
 
 // Route middleware
 app.use('/api/user', authRoute, (req, res) => {
-    res.set('Content-Type', 'text/html')
-    res.sendFile(path.join(__dirname, '/assets/landingPage.ejs'))
+    // res.set('Content-Type', 'text/html')
+    // res.sendFile(path.join(__dirname, '/assets/landingPage.ejs'))
+    res.render('landingPage')
 })
 app.use('/api/userboard', verifyToken, (req, res) => {
-    res.set('Content-Type', 'text/html')
-    res.sendFile(path.join(__dirname, '/assets/user.ejs'))
+
+    res.render('user')
 })
 app.use('/api/userboard/about', verifyToken, (req, res) => {
     res.set('Content-Type', 'text/html')
