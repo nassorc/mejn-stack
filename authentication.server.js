@@ -3,7 +3,7 @@ const dotenv = require('dotenv')
 const mongoose = require('mongoose')
 const path = require('path')
 const cookieParser = require('cookie-parser')
-
+const favicon = require('serve-favicon')
 const app = express()
 
 const verifyToken = require('./routes/verifyToken')
@@ -12,7 +12,9 @@ const verifyToken = require('./routes/verifyToken')
 app.use(express.static('assets'))
 app.use('/css', express.static(__dirname + 'assets/css'))
 app.use('/src', express.static(__dirname + 'assets/src'))
-console.log(__dirname)
+app.use('/image', express.static(__dirname + 'assets/image'))
+
+app.use(favicon(__dirname + '/assets/image/favicon.ico'))
 
 app.use(cookieParser())
 app.set('views', path.join(__dirname, 'views'))
