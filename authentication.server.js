@@ -35,6 +35,10 @@ mongoose.connect(process.env.USER_DATABASE_URL, () => {
 
 // middleware
 app.use(express.json())
+if (process.env.NODE_ENV !== 'production') {
+    const morgan = require('morgan')
+    app.use(morgan('dev'))
+}
 
 
 // Route middleware
@@ -57,6 +61,9 @@ app.use('/api/group', groupRoute)
 app.use('/api/data/get', (req, res) => {
     console.log('data get invoked')
     res.send({mesg: 'hello user'})
+})
+app.use((req, res) => {
+    res.status(404).render('404', {title: '404'})
 })
 
 app.listen(PORT, () => {
