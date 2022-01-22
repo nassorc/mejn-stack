@@ -62,7 +62,28 @@ class Storage {
         cookies.userId.split(',').forEach(todo => todoList.push(todo))
         return todoList
     }
-}   
+}
+
+class Timer {
+    // main() {
+    //     const startingMinutes = 10
+    //     // we want to convert to seconds
+    //     const time = startingMinutes * 60
+
+    //     const timerElement = document.querySelector('.timer')
+    //     setINterval(updateCountdown, 1000);
+
+    // }
+    // updateTimer() {
+    //     // convert minutes to seconds 
+    //     // floor to retreive lowest number without decimals
+    //     const minutes = Math.floor(time/ 60)
+    //     let seconds = time % 60
+        //    seconds = seconds < 10 : '0' + seconds : seconds;
+    //     timerElement.innerHtml = `${minutes}: ${seconds}`
+    //     time--;
+    // }
+}
 
 async function main() {
     const ui = new UI

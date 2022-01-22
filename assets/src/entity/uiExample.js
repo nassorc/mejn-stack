@@ -85,7 +85,8 @@ class Storage {
 async function main(){
   const product = new Product
   const ui = new UI
-  product.getProduct().then(item => {
+  product.getProduct()
+  .then(item => {
       ui.displayProducts(item)
       Storage.saveLocally(item)
   })

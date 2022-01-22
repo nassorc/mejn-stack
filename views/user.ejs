@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/css/globals.css">
     <link rel="stylesheet" href="/css/user.css">
     <link rel="stylesheet" href="/css/todoDashboard.css">
+    <link rel="stylesheet" href="/css/header.css">
     <title>Document</title>
 </head>
 <body>
@@ -19,6 +20,7 @@
 
 
     <%- include('./partials/TodoDashboard.ejs') %>
+    <%- include('./partials/Timer.ejs') %>
     <script type="text/javascript">
        const button = document.querySelector('.add')
        button.addEventListener('click', async (e)=>{

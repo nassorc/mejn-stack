@@ -1,0 +1,18 @@
+nav {
+  padding: 0 18px 0 18px;
+  box-shadow: 0 2px #d1d1d1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 4em;
+}
+.nav__links {
+  display: flex;
+}
+.nav__links-item {
+  margin-right: 16px;
+}
+.nav__links-item > a {
+  text-decoration: none;
+  color: black;
+}
