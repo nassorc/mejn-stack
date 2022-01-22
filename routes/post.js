@@ -6,7 +6,6 @@ const User = require('../models/user.model')
 
 router.post('/user', verifyToken, async (req, res, next) => {
     const todo = req.body.inputValue.todo
-
     const todoObject = new Todo({record: todo})
     console.log(todoObject)
     try {
@@ -18,12 +17,11 @@ router.post('/user', verifyToken, async (req, res, next) => {
             }
         })
         console.log(dbRes)
-        next()
     } catch(err) {
         console.log(err)
-        next()
     }
-    res.send({status: 'ok'})
+    // res.send({status: 'ok'})
+    res.status(200)
 })
 // router.get('/user/get', verifyToken, async (req, res, next) => {
 //     console.log('GET')
