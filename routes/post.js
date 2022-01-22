@@ -7,10 +7,10 @@ const User = require('../models/user.model')
 router.post('/user', verifyToken, async (req, res, next) => {
     const todo = req.body.inputValue.todo
     const todoObject = new Todo({record: todo})
-    console.log(todoObject)
+
     try {
         const dbRes = await User.findOneAndUpdate({
-            _id: req.cookies['userId']
+            _id: req.cookies['userIdFind']
         }, {
             $push: {
                 userTodoList: todoObject,
@@ -21,7 +21,8 @@ router.post('/user', verifyToken, async (req, res, next) => {
         console.log(err)
     }
     // res.send({status: 'ok'})
-    res.status(200)
+    
+    res.status(200).send({message: 'todo has been added.'})
 })
 // router.get('/user/get', verifyToken, async (req, res, next) => {
 //     console.log('GET')

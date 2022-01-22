@@ -5,6 +5,7 @@ const path = require('path')
 const cookieParser = require('cookie-parser')
 const favicon = require('serve-favicon')
 const app = express()
+const User = require('./models/user.model')
 
 const verifyToken = require('./routes/verifyToken')
 
@@ -44,6 +45,15 @@ if (process.env.NODE_ENV !== 'production') {
 
 
 // Route middleware
+app.get('/api/user/:userId', async (req, res) => {
+    console.log(req.params.userId)
+    const user = await User.findById(req.params.userId)
+    const todoList = user.userTodoList.map(todo => {
+        return todo.record
+    })
+    console.log(todoList)
+    res.status(200).send(JSON.stringify(todoList))
+})
 app.use('/api/user', authRoute, (req, res) => {
     // res.set('Content-Type', 'text/html')
     // res.sendFile(path.join(__dirname, '/assets/landingPage.ejs'))
@@ -64,6 +74,7 @@ app.use('/api/data/get', (req, res) => {
     console.log('data get invoked')
     res.send({mesg: 'hello user'})
 })
+
 app.use((req, res) => {
     res.status(404).render('404', {title: '404'})
 })

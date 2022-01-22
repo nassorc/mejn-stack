@@ -26,7 +26,7 @@ router.post('/register', async (req,res) => {
         password: hashedPassword,
         username: userData.username
     })
-
+    
     try{
         const dbRes = await User.create(user)
         res.send({status: 'ok', id: user.id, message: "user has been created!"})
@@ -51,10 +51,10 @@ router.post('/login', async (req, res) => {
     if(!validPass) return res.status(400).send('Invalid password')
 
     // create and assign token
-    const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET, {expiresIn: '1h'})
+    const token = jwt.sign({id: user.id}, process.env.TOKEN_SECRET, {expiresIn: '1h'})
     let t = new Object(jwt.decode(token))
     // console.log(Date(t['exp']))
-
+    console.log(user.id)
     const todoData = user.userTodoList
     const refinedTodoData = todoData.map(todo => {
         return todo.record
@@ -62,6 +62,8 @@ router.post('/login', async (req, res) => {
   
     res.cookie('id', token, {sameSite: true})
     res.cookie('userId', JSON.stringify(refinedTodoData), {sameSite: true})
+    res.cookie('userIdFind', user.id, {sameSite: true})
+
     res.redirect(301, '/api/userboard')
 })
 

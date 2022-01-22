@@ -1,10 +1,20 @@
 class UI {
+    async loadData(id) {
+        try {
+            const res = await fetch(`http://localhost:8080/api/user/${id}`)
+            const data = await res.json()
+            return data
+        } catch(err) {
+            console.log(err)
+        }
+    }
     todoEntity(elementClassName, items) {
         // Function returns the todo list DOM with the new items
         // receives the parent of the items as a class
+ 
         let result = ''
         const todoListDOM = document.querySelector(`.${elementClassName}`)
-        console.log(todoListDOM)
+   
         items.forEach(item => {
             result += `
             <li class="todo-group__body-item">
@@ -56,10 +66,15 @@ class Storage {
 
 async function main() {
     const ui = new UI
-    const todoList = Storage.parseCookie(document.cookie)
-    const DOMList = ui.todoEntity('todo-group__body', todoList)
+    // const todoList = Storage.parseCookie(document.cookie)
+    const cookie = document.cookie.split(';').map(cookie => cookie.split('=')).reduce((accumulator, [key, value]) => ({...accumulator, [key.trim()]: decodeURIComponent(value) }), {});
+    const id = cookie.userIdFind
     
-    ui.todoAddInputFunction('todo-add', 'todo-input')
+    ui.loadData(id)
+    .then(todo => {
+        const DOMList = ui.todoEntity('todo-group__body', todo)
+        ui.todoAddInputFunction('todo-add', 'todo-input')
+    })    
 
 }
 
