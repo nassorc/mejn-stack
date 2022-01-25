@@ -21,39 +21,7 @@
 
     <%- include('./partials/TodoDashboard.ejs') %>
     <%- include('./partials/Timer.ejs') %>
-    <script type="text/javascript">
-       const button = document.querySelector('.add')
-       button.addEventListener('click', async (e)=>{
-           e.preventDefault()
-           const inputValue = {todo: document.querySelector('.todo-input').value}
-          
-           await fetch('http://localhost:8080/api/posts/user', {
-               method: 'POST',
-               headers: {
-                   'Content-Type': 'application/json'
-               },
-               body: JSON.stringify({
-                    inputValue
-               })
-           })
-           .then(res => {console.log(res)})
-       })
-
-       const loadData = () => {
-        //   const data = document.cookie.split(';')[1]
-        //   const parsed = data.value
-        //   console.log(parsed)
-        let list = []
-        // const cookies = document.cookie.split(';').map(cookie => cookie.split('=')).reduce((accumulator, [key, value]) => ({...accumulator, [key.trim()]: decodeURIComponent(value) }), {});
-        // console.log(cookies.userId.split(',').forEach(todo => list.push(todo)))
-        // console.log(list)
-       }
-
-    //    document.addEventListener('DOMContentLoaded', ()=> {
-
-    //        loadData()
-    //    })
-    </script>
+    
     <script src="/src/entity/todo.js"></script>
 </body>
-</html>
+</html> 

@@ -16,7 +16,6 @@ router.post('/user', verifyToken, async (req, res, next) => {
                 userTodoList: todoObject,
             }
         })
-        console.log(dbRes)
     } catch(err) {
         console.log(err)
     }
@@ -24,21 +23,6 @@ router.post('/user', verifyToken, async (req, res, next) => {
     
     res.status(200).send({message: 'todo has been added.'})
 })
-// router.get('/user/get', verifyToken, async (req, res, next) => {
-//     console.log('GET')
-//     try {
-//         const dbRes = await User.findOne({_id: req.cookies['userId']})
-//         const todo = dbRes.userTodoList[0]
-//         console.log(todo)
-//     } catch(err) {
-//         console.log(err)
-//     }
-//     res.send({status: 'ok', message: 'data'})
-// }) 
-            
-router.get('/user/get', verifyToken, (req, res, next) => {
-    console.log('get /user been triggered')
-    res.send({message: 'data'})
-})
+
 
 module.exports = router

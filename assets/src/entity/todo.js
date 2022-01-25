@@ -25,20 +25,23 @@ class UI {
                     Added by
                     <a href="">nassorc</a>
                 </div>
+                <button class="show-settings__button add-settings"><h4>. . .</h4></button>
+                <div class="todo-group__body-item-settings setting hide">
+                    <div class="delete-todo"><span>delete todo</span></div>
+                    <div class="edit-todo"><span>edit todo</span></div>
+                </div>
             </li>
             `
         })
         todoListDOM.innerHTML += result
     }
-    testClass() {
-        console.log('Class is working')
-    }
+
     todoAddInputFunction(addButtonClassName, inputClassName) {
         // pass a HTML class of todo-input to this function to add functionality.
         const addButton = document.querySelector(`.${addButtonClassName}`)
         
         addButton.addEventListener('click', async (e) => {
-            e.preventDefault()
+            // e.preventDefault()
             const inputValue = {todo: document.querySelector(`.${inputClassName}`).value}
           
            await fetch('http://localhost:8080/api/posts/user', {
@@ -50,9 +53,40 @@ class UI {
                     inputValue
                })
            })
-           .then(res => {console.log(res)})
+           .then(res => {res.json()})
         })
     }
+
+    todoShowSetting() {
+        // div container must have a button.add-settings and
+        // a div with a class set of setting and hide
+        // function will toggle display none off and on with a classname of hide. use setting class to find div
+        const settingButtons = [...document.querySelectorAll('button.add-settings')]
+        settingButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const liContainer = e.target.parentNode.parentNode
+                const settingContainer = liContainer.querySelector('.setting')
+                if(settingContainer.classList.contains('hide')) {
+                    settingContainer.classList.remove('hide')
+                } else {
+                    settingContainer.classList.add('hide')
+
+                }
+                
+            })
+        })
+    }
+
+    // todoAddSettings() {
+    //     // give button a class name of add-settings
+    //     const buttons = [...document.querySelectorAll('.add-settings')]
+    //     buttons.forEach(button => {
+    //         button.addEventListener('click', (e) => {
+    //             e.preventDefault();
+    //             console.log('clicked')
+    //         })
+    //     })
+    // }
 }
 
 class Storage {
@@ -95,6 +129,7 @@ async function main() {
     .then(todo => {
         const DOMList = ui.todoEntity('todo-group__body', todo)
         ui.todoAddInputFunction('todo-add', 'todo-input')
+        ui.todoShowSetting()
     })    
 
 }

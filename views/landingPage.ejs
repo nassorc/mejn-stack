@@ -9,7 +9,6 @@
     <title>Document</title>
 </head>
 <body>
-    
     <form action="" class="login-form">
         <h2>Login</h2><hr>
         <input type="email" placeholder="email" name="email" class="email-login">
@@ -29,7 +28,7 @@
     <script>
         const register = document.getElementById('btn-register')
         const login = document.getElementById('btn-login')
-        const message = register.addEventListener('click', async (e) => {
+        register.addEventListener('click', async (e) => {
             e.preventDefault()
             const email = document.querySelector('.email-register').value
             const password = document.querySelector('.password-register').value
@@ -46,9 +45,9 @@
                 })
             })
             .then(res => res.json())
-            .then(data => {return data})
+            .then(data => console.log(data))
         })        
-        console.log(message)
+    
         login.addEventListener('click', async (e) => {
             e.preventDefault()
             const email = document.querySelector('.email-login').value

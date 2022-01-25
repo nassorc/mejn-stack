@@ -1,11 +1,15 @@
 const express = require('express')
-const dotenv = require('dotenv')
-const mongoose = require('mongoose')
-const path = require('path')
 const cookieParser = require('cookie-parser')
+const dotenv = require('dotenv')
+const path = require('path')
 const favicon = require('serve-favicon')
-const app = express()
+const mongoose = require('mongoose')
 const User = require('./models/user.model')
+const session = require('express-session')
+const flash = require('connect-flash')
+var cors = require('cors')
+
+const app = express()
 
 const verifyToken = require('./routes/verifyToken')
 
@@ -14,12 +18,29 @@ app.use(express.static('assets'))
 app.use('/css', express.static(__dirname + 'assets/css'))
 app.use('/src', express.static(__dirname + 'assets/src'))
 app.use('/image', express.static(__dirname + 'assets/image'))
+app.use(cors())
+
 
 app.use(favicon(__dirname + '/assets/image/favicon.ico'))
 
-app.use(cookieParser())
+// Parse JSON data middleware
+app.use(express.urlencoded({extended: true}))
+app.use(express.json())
+
+// Set cookie parser, sessions, and flash
+app.use(cookieParser('SecretStringForCookies'))
+// app.use(session({
+//     secret: 'SecretStringForSession',
+//     cookie: { maxAge: 6000 },
+//     resave: true, // forces sessions to be saved back to the session store
+//     saveUninitialized: true 
+// }))
+// app.use(flash())
+
+// Set view engine
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
+
 
 // Import routes
 const authRoute = require('./routes/auth')
@@ -36,8 +57,6 @@ mongoose.connect(process.env.USER_DATABASE_URL, () => {
 })
 
 
-// middleware
-app.use(express.json())
 if (process.env.NODE_ENV !== 'production') {
     const morgan = require('morgan')
     app.use(morgan('dev'))
@@ -46,12 +65,10 @@ if (process.env.NODE_ENV !== 'production') {
 
 // Route middleware
 app.get('/api/user/:userId', async (req, res) => {
-    console.log(req.params.userId)
     const user = await User.findById(req.params.userId)
     const todoList = user.userTodoList.map(todo => {
         return todo.record
     })
-    console.log(todoList)
     res.status(200).send(JSON.stringify(todoList))
 })
 app.use('/api/user', authRoute, (req, res) => {
@@ -70,10 +87,6 @@ app.use('/api/userboard/about', verifyToken, (req, res) => {
 app.use('/api/posts', postRoute)
 app.use('/api/group', groupRoute)
 
-app.use('/api/data/get', (req, res) => {
-    console.log('data get invoked')
-    res.send({mesg: 'hello user'})
-})
 
 app.use((req, res) => {
     res.status(404).render('404', {title: '404'})
