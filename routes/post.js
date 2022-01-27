@@ -24,5 +24,4 @@ router.post('/user', verifyToken, async (req, res, next) => {
     res.status(200).send({message: 'todo has been added.'})
 })
 
-
 module.exports = router

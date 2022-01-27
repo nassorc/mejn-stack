@@ -11,15 +11,16 @@ class UI {
     todoEntity(elementClassName, items) {
         // Function returns the todo list DOM with the new items
         // receives the parent of the items as a class
- 
+        // gives each todo a id 
+        
         let result = ''
         const todoListDOM = document.querySelector(`.${elementClassName}`)
    
         items.forEach(item => {
             result += `
-            <li class="todo-group__body-item">
+            <li class="todo-group__body-item" data-todoId=${item.todoId}>
                 <div class="comment">
-                    <p>${item}</p>
+                    <p>${item.record}</p>
                 </div>
                 <div class="owner">
                     Added by
@@ -77,16 +78,31 @@ class UI {
         })
     }
 
-    // todoAddSettings() {
-    //     // give button a class name of add-settings
-    //     const buttons = [...document.querySelectorAll('.add-settings')]
-    //     buttons.forEach(button => {
-    //         button.addEventListener('click', (e) => {
-    //             e.preventDefault();
-    //             console.log('clicked')
-    //         })
-    //     })
-    // }
+    deleteTodo(id) {
+        // button must have delete-todo in class list
+        const deleteButtons = [...document.querySelectorAll('.delete-todo')]
+        // const li = [...document.querySelectorAll('li.todo-group__body-item')]
+        // console.log(li)
+        // li.forEach(item => {
+        //     console.log(item.dataset.todoid)
+        // })
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', async (e) => {
+                const todoId = e.target.parentNode.parentNode.dataset.todoid
+                console.log(todoId)
+                const res = await fetch(`http://localhost:8080/api/user/${id}/post/delete`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        todoId: todoId
+                    })
+                })
+            })
+        })
+    }
+
 }
 
 class Storage {
@@ -127,9 +143,12 @@ async function main() {
     
     ui.loadData(id)
     .then(todo => {
-        const DOMList = ui.todoEntity('todo-group__body', todo)
+        // console.log(Object.values(todo))
+
+        ui.todoEntity('todo-group__body', todo)
         ui.todoAddInputFunction('todo-add', 'todo-input')
         ui.todoShowSetting()
+        ui.deleteTodo(id)
     })    
 
 }

@@ -67,9 +67,23 @@ if (process.env.NODE_ENV !== 'production') {
 app.get('/api/user/:userId', async (req, res) => {
     const user = await User.findById(req.params.userId)
     const todoList = user.userTodoList.map(todo => {
-        return todo.record
+        return {record: todo.record, todoId: todo.id}
     })
     res.status(200).send(JSON.stringify(todoList))
+})
+//delete root
+app.post('/api/user/:userId/post/delete', async(req, res) => {
+    console.log(req.params.userId)
+    console.log(req.body)
+    // broken findbyidandupdate
+    const user = await User.findById(req.params.userId,
+        {
+            $pull: {
+                id: req.body.todoId
+            }
+        })
+    console.log(user)
+
 })
 app.use('/api/user', authRoute, (req, res) => {
     // res.set('Content-Type', 'text/html')
