@@ -88,6 +88,7 @@ class UI {
         // })
         deleteButtons.forEach(button => {
             button.addEventListener('click', async (e) => {
+                document.location.reload(true)
                 const todoId = e.target.parentNode.parentNode.dataset.todoid
                 console.log(todoId)
                 const res = await fetch(`http://localhost:8080/api/user/${id}/post/delete`, {

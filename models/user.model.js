@@ -1,10 +1,14 @@
 const mongoose = require('mongoose')
-const todo = require('./todo.model').schema
+// const todo = require('./todo.model').schema
 
 
 const validateEmail = (email) => {
     return email
 }
+const todo = mongoose.Schema({
+    record: {type: String, required: true},
+    date: {type: Number, required: true, default: Date.now}
+})
 
 const UserSchema = new mongoose.Schema({
     email: {

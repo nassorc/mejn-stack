@@ -5,6 +5,7 @@ const path = require('path')
 const favicon = require('serve-favicon')
 const mongoose = require('mongoose')
 const User = require('./models/user.model')
+const Todo = require('./models/todo.model')
 const session = require('express-session')
 const flash = require('connect-flash')
 var cors = require('cors')
@@ -73,16 +74,23 @@ app.get('/api/user/:userId', async (req, res) => {
 })
 //delete root
 app.post('/api/user/:userId/post/delete', async(req, res) => {
-    console.log(req.params.userId)
-    console.log(req.body)
     // broken findbyidandupdate
-    const user = await User.findById(req.params.userId,
-        {
-            $pull: {
-                id: req.body.todoId
-            }
-        })
-    console.log(user)
+    try{
+
+        const user = await User.findByIdAndUpdate(req.params.userId, 
+            {
+               "$pull": {
+                    "userTodoList": {
+                        "_id": req.body.todoId
+                    }
+                }
+            })
+            // "userTodoList.$[o].record": "job interview"
+                    // "userTodoList.id": req.body.todoId
+        console.log(user)
+    } catch(err) {
+        console.log(err)
+    }
 
 })
 app.use('/api/user', authRoute, (req, res) => {
