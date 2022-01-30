@@ -3,6 +3,21 @@ const Group = require('../models/group.model')
 const {joinGroupValidation} = require('../validation')
 const bcrypt = require('bcryptjs')
 
+
+// router.get('/', async (req, res) => {
+    // res.send(req.query)
+    // const {error} = joinGroupValidation(req.body)
+    // if(error) return res.status(400).send({message: error.details[0].message})
+    // const groups = await Group.find({groupname:req.query.groupname})
+    // res.json({status: 'ok', groups: groups})
+// })
+// ?groupname=apple&sor=newest
+// :id => home/1234
+
+router.get('/:groupName', async(req, res) => {
+    res.send("should contain the website of a group")
+})
+
 router.post('/create', async (req, res) => {
     const {groupname, secret} = req.body
     if(!groupname) return res.status(400).json({message: "Must have groupname"})
@@ -26,14 +41,5 @@ router.post('/create', async (req, res) => {
     }
 })
 
-router.get('/', async (req, res) => {
-    // res.send(req.query)
-    // const {error} = joinGroupValidation(req.body)
-    // if(error) return res.status(400).send({message: error.details[0].message})
-    const groups = await Group.find({groupname:req.query.groupname})
-    res.json({status: 'ok', groups: groups})
-})
-// ?groupname=apple&sor=newest
-// :id => home/1234
 
 module.exports = router
